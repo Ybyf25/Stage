@@ -1,0 +1,270 @@
+/* =========================== ОСНОВНОЕ ОФОРМЛЕНИЕ СТРАНИЦЫ =========================== */
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+/* =========================== ПРИВЕТСТВЕННЫЙ СЛОЙ =========================== */
+/* тёмный слой поверх всей страницы */
+#welcome-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: opacity 0.3s;
+}
+
+/* блок с текстом и кнопкой внутри затемнения */
+#welcome-box {
+  width: 60%;
+  max-width: 700px;
+  background: #222;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  color: #fff;
+  /* красивая тень вокруг блока */
+  box-shadow: 0 0 30px #000;
+}
+
+/* заголовок */
+#welcome-box h1 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  /* увеличенный размер шрифта (X раз от базового) */
+  font-size: 2.2em;
+  color: #ffe593;
+}
+
+/* напоминание */
+#welcome-box h2 {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.4em;
+  color: #ffafa1;
+}
+
+/* абзац текста внутри блока */
+#welcome-box p {
+  font-size: 1.2em;
+  line-height: 1.5em;
+  margin-bottom: 30px;
+}
+
+/* кнопка "Позвать музыкантов!" */
+#welcome-btn {
+  padding: 14px 18px;
+  font-size: 1.55em;
+  border: none;
+  border-radius: 10px;
+  background: #ffcc2d;
+  /* при наведении готовы "тыкать" */
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* состояние кнопки при наведении */
+#welcome-btn:hover {
+  background: #ffe593;
+}
+
+/* =========================== СЦЕНА =========================== */
+/* главный контейнер, внутри которого сцена и все слоты */
+#stage-container {
+  position: relative; /* слоты позиционируются относительно этого контейнера */
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* картинка сцены */
+#stage-img {
+  position: absolute; /* позиционируем относительно #stage-container */
+  inset: 0;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* сцена всегда полностью видна */
+  pointer-events: none; /* чтобы мышь не цеплялась за картинку */
+  /* слой ниже слотов, но выше фона */
+  z-index: 1;
+}
+
+/* слоты поверх сцены */
+#stage-container .slot {
+  /* слой выше картинки сцены, чтобы их было видно и можно было взаимодействовать */
+  z-index: 2;
+}
+
+/* =========================== ПАНЕЛЬ УПРАВЛЕНИЯ =========================== */
+/* панель с кнопками "Бегом на сцену!" и "Вон со сцены!" */
+#control-panel {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 50;
+}
+
+/* сами кнопки */
+#control-panel button {
+  flex: 0 0 auto;
+  background: #333;
+  color: #fff;
+  border: 2px solid #888;
+  padding: 10px 10px;
+  font-size: 1.1em;
+  border-radius: 10px;
+  cursor: pointer; /* курсор "указующая рука" при наведении */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* состояние кнопок при наведении */
+#control-panel button:hover {
+  background: #555;
+}
+
+/* класс для картинок-иконок внутри кнопок */
+#control-panel .icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* класс для отзеркаленных картинок-иконок, чтобы было симметрично и красиво */
+.mirrorVertical {
+  transform: scale(-1, 1);
+}
+
+#hints * {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  flex: 0 0 auto;
+  color: #fff;
+  font-style: italic;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 4s;
+}
+
+#hints h3 {
+  font-size: 1.1em;
+}
+#hints h4 {
+  font-size: 1.05em;
+}
+#hints h5 {
+  font-size: 1.0em;
+}
+
+#hints .visible {
+  opacity: 1;
+}
+
+/* =========================== СЛОТЫ =========================== */
+/* общий стиль для всех слотов */
+.slot {
+  /* координаты заданы в JS */
+  position: absolute;
+  border: 3px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+  box-sizing: border-box; /* ширина и высота включают в себя рамку и внутренние отступы */
+}
+
+/* слот свободен */
+.slot.free {
+  border-color: rgba(255,255,240,0.3);
+  background: rgba(255,255,240,0.3);
+}
+
+/* в слот "попали" */
+.slot.active {
+  border-color: rgb(255, 229, 147);
+  background: rgba(255, 229, 147,0.5);
+}
+
+
+/* тайный слот (полностью невидимый, реагирует только на скрипача) */
+.secret-slot {
+  background: transparent;
+  border: none;
+}
+/* так-то это не надо, но вдруг захочется изменить этот слот? да и для тестов было нужно, так что пусть класс поживёт в призрачном виде */
+/*
+.secret-slot.secretlyFree {
+  background: rgba(255,255,255,0.3);
+  border: none;
+}
+*/
+/* скрипач внутри тайного слота сливается с окружением */
+.secret-slot .musician[data-id="violin"] {
+  opacity: 0.07;
+  cursor: grab;
+}
+
+
+/* =========================== МУЗЫКАНТЫ =========================== */
+/* стиль для картинок музыкантов */
+.musician {
+  visibility: hidden; /* по умолчанию скрыты, пока JS не сделает видимыми */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: grab; /* курсор "хватательная рука", показывающий, что элемент можно перетаскивать */
+  transition: 0.1s;
+}
+
+/* класс, который добавляется к музыканту в слоте во время перетаскивания, чтобы не было двойников */
+.dragging {
+  opacity: 0;
+}
+
+/* =========================== АНИМАЦИЯ МУЗЫКАНТОВ НА СЦЕНЕ =========================== */
+/* трубач прыгает */
+@keyframes trumpet-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-5%); }
+}
+
+.musician.trumpet-anim {
+  animation: trumpet-bounce 0.5s ease-in-out infinite;
+}
+
+/* скрипач скользит вправо-влево */
+@keyframes violin-glide {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(5%); }
+}
+
+.musician.violin-anim {
+  animation: violin-glide 0.5s ease-in-out infinite;
+}
+
+/* пианист качается через вращение */
+@keyframes piano-swing {
+  0%, 100% { transform: rotate(0deg); transform-origin: 50% 100%; }
+  50%      { transform: rotate(3deg); transform-origin: 50% 100%; }
+}
+
+.musician.piano-anim {
+  animation: piano-swing 0.5s ease-in-out infinite;
+}

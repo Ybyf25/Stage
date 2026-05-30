@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Концертная сцена</title>
+  <link rel="stylesheet" href="dnd.css">
+</head>
+
+<body>
+  <!-- =========================== ПРИВЕТСТВЕННЫЙ СЛОЙ =========================== -->
+  <!-- затемнение + приветственный текст + кнопка пуска -->
+  <div id="welcome-overlay">
+    <div id="welcome-box">
+      <h1>Добро пожаловать на концерт!</h1>
+      <!-- объяснения механики игры и фичи, если возникают какие-то проблемы со звуком -->
+      <p>
+        Наши музыканты волнуются за кулисами и ждут вашего сигнала. Помогите им выступить: перетаскивайте музыкантов на сцену и обратно, чтобы они начинали или прекращали играть. Каждый музыкант добавляет свою партию в общую мелодию. Выберите своё звучание!
+      </p>
+      <h2>Напоминание!</h2>
+      <p>
+        Музыканты волнуются, поэтому иногда могут растеряться и играть мимо нот или вовсе забыть свои партии. Дайте им возможность взять себя в руки за кулисами, чтобы вернуться и справиться лучше! А если кто-то случайно продолжит играть из-за кулис, напомните ему, что он не на сцене, просто переместив его в другое место закулисья.
+      </p>
+      <!-- кнопка закрывает приветственный экран -->
+      <button id="welcome-btn">Позвать музыкантов!</button>
+    </div>
+  </div>
+
+  <!-- =========================== ПАНЕЛЬ УПРАВЛЕНИЯ =========================== -->
+  <div id="control-panel"> <!-- панель управления с кнопками "всех на сцену" и "всех со сцены" -->
+    <button id="btn-come_on_stage"> <!-- кнопка "вывести всех музыкантов на сцену" -->
+      <img src="come.png" class="icon">
+      Бегом на сцену!
+      <img src="come.png" class="icon mirrorVertical">
+    </button>
+
+    <div id="hints">
+      <h3>Вам не кажется эта шторка подозрительной?<br>↓</h3>
+      <h4>Может быть, за ней можно спрятать кого-то?<br>↓↓</h4>
+      <h5>Скажем... Скрипача?<br>↓↓↓</h5>
+    </div>
+
+    <button id="btn-leave_stage"> <!-- кнопка "убрать всех музыкантов со сцены" -->
+      <img src="leave.png" class="icon mirrorVertical">
+      Вон со сцены!
+      <img src="leave.png" class="icon">
+    </button>
+  </div>
+
+  <!-- =========================== СЦЕНА =========================== -->
+  <!-- главный контейнер: все слоты находятся внутри сцены, чтобы масштабироваться вместе с ней -->
+  <div id="stage-container">
+    <img id="stage-img" src="stage.png" alt="Сцена">
+
+    <!-- -------------------- СЛОТЫ ЗАКУЛИСЬЯ -------------------- -->
+    <!-- координаты заданы в JS -->
+    <div class="slot backstage-slot" id="back-1">
+      <img draggable="true" class="musician" data-id="violin" src="violin.png" alt="Скрипач">
+      <!-- data-id="violin" - уникальный ID инструмента для JS -->
+    </div>
+
+    <div class="slot backstage-slot" id="back-2">
+      <img draggable="true" class="musician" data-id="trumpet" src="trumpet.png" alt="Трубач">
+    </div>
+
+    <div class="slot backstage-slot" id="back-3">
+      <img draggable="true" class="musician" data-id="piano" src="piano.png" alt="Пианист">
+    </div>
+
+    <!-- -------------------- ТАЙНЫЙ СЛОТ -------------------- -->
+    <div class="slot secret-slot" id="secret"></div>
+
+    <!-- -------------------- СЛОТЫ СЦЕНЫ -------------------- -->
+    <div class="slot stage-slot" id="stage-1"></div>
+    <div class="slot stage-slot" id="stage-2"></div>
+    <div class="slot stage-slot" id="stage-3"></div>
+  </div>
+
+  <script src="dnd.js"></script>
+</body>
+</html>
